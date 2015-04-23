@@ -1,6 +1,6 @@
 # wolves-and-rabbits-world-simulation
 
-## Idea and Description
+## Description
 
 This is an implementation of assignment described by Francessco Cessarini [here](http://www.youtube.com/watch?v=d5G3P2iosmA):
 
