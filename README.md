@@ -10,7 +10,8 @@ The most detailed description:
 
 ## How to build it?
 
-1. `erl -make`
+1. `make clean`
+2. `make`
 
 ## Architecture
 
