@@ -15,9 +15,9 @@ The most detailed description:
 
 ## Architecture
 
-*TODO*: Screen from *Observer* tool.
-*TODO*: Small description of the notification mechanism and FSMs.
-*TODO*: `GIF` from *Erlubi* visualization connected to it.
+- *TODO*: Screen from *Observer* tool.
+- *TODO*: Small description of the notification mechanism and FSMs.
+- *TODO*: `GIF` from *Erlubi* visualization connected to it.
 
 ## TODO
 
