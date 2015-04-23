@@ -4,6 +4,7 @@
    { modules, [] },
    { registered, [] },
    { applications, [ kernel, stdlib, sasl ] },
-   { mod, { wolves_and_rabbits_world_simulation, [] } }
+   { env, [] },
+   { mod, { simulation, [] } }
  ]
 }.

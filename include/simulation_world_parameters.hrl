@@ -1,0 +1,1 @@
+-record(world_parameters, {carrots, rabbits, wolves, width, height}).
