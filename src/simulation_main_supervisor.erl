@@ -3,15 +3,35 @@
 
 -include("../include/simulation_world_parameters.hrl").
 
--export([ start_link/0, init/1 ]).
+-export([ start_link/1, init/1 ]).
 -export([ populate/1 ]).
 
-start_link() ->
-    supervisor:start_link(?MODULE, ?MODULE, []).
+start_link(WorldParameters) ->
+    supervisor:start_link({local, ?MODULE}, ?MODULE, WorldParameters).
 
-init(_State) ->
-    %% TODO
-    ok.
+init(WorldParameters) ->
+    simulation_event_stream:init(),
+    simulation_event_stream:component_ready(?MODULE),
+
+    Args = [ WorldParameters ],
+
+    CarrotsSupervisor = {carrots_supervisor, 
+                         {simulation_carrots_supervisor, start_link, Args}, 
+                         permanent, brutal_kill, supervisor, 
+                         [ simulation_carrots_supervisor ]},
+
+    RabbitsSupervisor = {rabbbits_supervisor, 
+                         {simulation_rabbits_supervisor, start_link, Args}, 
+                         permanent, brutal_kill, supervisor, 
+                         [ simulation_rabbits_supervisor ]},
+
+    WolvesSupervisor = {wolves_supervisor, 
+                        {simulation_wolves_supervisor, start_link, Args}, 
+                        permanent, brutal_kill, supervisor, 
+                        [ simulation_wolves_supervisor ]},
+
+    {ok, {{one_for_all, 1, 60}, 
+          [ CarrotsSupervisor, RabbitsSupervisor, WolvesSupervisor ]}}.
 
 populate(Parameters) ->
     simulation_carrots_supervisor:plant(Parameters),
