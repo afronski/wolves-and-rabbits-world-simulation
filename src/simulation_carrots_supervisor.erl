@@ -15,10 +15,16 @@ init(State) ->
     {ok, {{one_for_one, State#world_parameters.carrots, 1}, []}}.
 
 plant(Parameters) ->
-    Carrot = { {carrot, 1}, 
-               {simulation_entity_carrot, start_link, [ Parameters ]}, 
+    plantCarrots(0, Parameters#world_parameters.carrots, Parameters).
+
+plantCarrots(Created, Total, WorldParameters) when Created < Total ->
+    Carrot = { {carrot, Created + 1},
+               {simulation_entity_carrot, start_link, [ WorldParameters ]},
                permanent, brutal_kill, worker, 
                [ simulation_carrot ]},
 
     supervisor:start_child(?MODULE, Carrot),
+    plantCarrots(Created + 1, Total, WorldParameters);
+
+plantCarrots(_Created, _Total, _WorldParameters) ->
     done.

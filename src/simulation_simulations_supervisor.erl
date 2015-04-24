@@ -39,5 +39,5 @@ populate(Parameters) ->
     done.
 
 restart() ->
-    exit(whereis(?MODULE), kill),
+    exit(whereis(?MODULE), shutdown),
     done.
