@@ -30,3 +30,4 @@ A textual description:
 - *TODO*: Rabbit FSM and logic.
 - *TODO*: Wolf FSM and logic.
 - *TODO*: Add `rebar` to it, in order to integrate with `mix` afterwards.
+- *TODO*: Stopping a simulation does not work. :(
