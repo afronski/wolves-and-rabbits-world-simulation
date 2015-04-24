@@ -4,39 +4,34 @@
 -include("../include/simulation_world_parameters.hrl").
 
 -export([ start_link/1, init/1 ]).
--export([ populate/1 ]).
+-export([ populate/1, kill_population/0 ]).
 
 start_link(WorldParameters) ->
     supervisor:start_link({local, ?MODULE}, ?MODULE, WorldParameters).
 
 init(WorldParameters) ->
-    simulation_event_stream:init(),
-    simulation_event_stream:component_ready(?MODULE),
-
     Args = [ WorldParameters ],
 
-    CarrotsSupervisor = {carrots_supervisor, 
-                         {simulation_carrots_supervisor, start_link, Args}, 
-                         permanent, brutal_kill, supervisor, 
-                         [ simulation_carrots_supervisor ]},
+    EventStream = {simulation_event_stream,
+                   {simulation_event_stream, start_link, []},
+                   permanent, 1000, worker,
+                   [ simulation_event_stream ]},
 
-    RabbitsSupervisor = {rabbbits_supervisor, 
-                         {simulation_rabbits_supervisor, start_link, Args}, 
-                         permanent, brutal_kill, supervisor, 
-                         [ simulation_rabbits_supervisor ]},
+    SimulationController = {simulation_controller,
+                            {simulation_controller, start_link, Args},
+                            permanent, 1000, worker,
+                            [ simulation_controller ]},
 
-    WolvesSupervisor = {wolves_supervisor, 
-                        {simulation_wolves_supervisor, start_link, Args}, 
-                        permanent, brutal_kill, supervisor, 
-                        [ simulation_wolves_supervisor ]},
+    SimulationsSupervisor = {simulations_supervisor,
+                             {simulation_simulations_supervisor, start_link, Args},
+                             permanent, brutal_kill, supervisor,
+                             [ simulation_simulations_supervisor ]},
 
-    {ok, {{one_for_all, 1, 60}, 
-          [ CarrotsSupervisor, RabbitsSupervisor, WolvesSupervisor ]}}.
+    {ok, {{one_for_one, 1, 60}, 
+          [ EventStream, SimulationController, SimulationsSupervisor ]}}.
 
 populate(Parameters) ->
-    simulation_carrots_supervisor:plant(Parameters),
+    simulation_simulations_supervisor:populate(Parameters).
 
-    simulation_rabbits_supervisor:breed(Parameters),
-    simulation_wolves_supervisor:breed(Parameters),
-
-    done.
+kill_population() ->
+    simulation_simulations_supervisor:restart().

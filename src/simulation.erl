@@ -22,11 +22,7 @@ read_world_parameters_from_settings() ->
 
 start(_Type, _Args) ->
     Parameters = read_world_parameters_from_settings(),
-
-    {ok, Pid} = simulation_main_supervisor:start_link(Parameters),  
-    simulation_main_supervisor:populate(Parameters),
-
-    {ok, Pid}.
+    simulation_main_supervisor:start_link(Parameters).
 
 stop(_State) -> 
     ok.

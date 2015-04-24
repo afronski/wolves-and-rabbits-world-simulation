@@ -14,5 +14,11 @@ init(State) ->
 
     {ok, {{one_for_one, State#world_parameters.carrots, 1}, []}}.
 
-plant(_Parameters) ->
+plant(Parameters) ->
+    Carrot = { {carrot, 1}, 
+               {simulation_carrot, start_link, [ Parameters ]}, 
+               permanent, brutal_kill, worker, 
+               [ simulation_carrot ]},
+
+    supervisor:start_child(?MODULE, Carrot),
     done.
