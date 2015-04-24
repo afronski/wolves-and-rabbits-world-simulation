@@ -27,7 +27,6 @@ A textual description:
 
 ### Internals
 
-- *TODO*: Carrot FSM and logic.
 - *TODO*: Rabbit FSM and logic.
 - *TODO*: Wolf FSM and logic.
 - *TODO*: Add `rebar` to it, in order to integrate with `mix` afterwards.
