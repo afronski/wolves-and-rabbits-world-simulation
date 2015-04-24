@@ -1,7 +1,7 @@
 -module(simulation_rabbits_supervisor).
 -behavior(supervisor).
 
--include("../include/simulation_world_parameters.hrl").
+-include("../include/simulation_records.hrl").
 
 -export([ start_link/1, init/1 ]).
 -export([ breed/1 ]).

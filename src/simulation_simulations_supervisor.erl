@@ -1,7 +1,7 @@
 -module(simulation_simulations_supervisor).
 -behavior(supervisor).
 
--include("../include/simulation_world_parameters.hrl").
+-include("../include/simulation_records.hrl").
 
 -export([ start_link/1, init/1 ]).
 -export([ populate/1, restart/0 ]).

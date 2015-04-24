@@ -1,7 +1,7 @@
 -module(simulation_controller).
 -behavor(gen_server).
 
--include("../include/simulation_world_parameters.hrl").
+-include("../include/simulation_records.hrl").
 
 -export([ init/1, handle_call/3, terminate/2, code_change/3, handle_cast/2, handle_info/2 ]).
 -export([ start_link/1, start_simulation/0, stop_simulation/0, get_board_parameters/0 ]).
@@ -46,10 +46,7 @@ handle_call(get_board_parameters, _From, {_StateName, WorldParameters} = State) 
     Width = WorldParameters#world_parameters.width,
     Height = WorldParameters#world_parameters.height,
 
-    {reply, { {width, Width}, {height, Height} }, State};
-
-handle_call(_Message, _From, State) ->
-    {reply, empty, State}.
+    {reply, { {width, Width}, {height, Height} }, State}.
 
 terminate(_, _State) ->
     ok.
@@ -62,6 +59,3 @@ handle_cast(_Request, State) ->
 
 handle_info(_Info, State) -> 
     {noreply, State}.
-
-
-

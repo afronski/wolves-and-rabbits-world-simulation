@@ -1,7 +1,7 @@
 -module(simulation).
 -behavior(application).
 
--include("../include/simulation_world_parameters.hrl").
+-include("../include/simulation_records.hrl").
 
 -export([ start/2, stop/1 ]).
 

@@ -1,7 +1,7 @@
 -module(simulation_carrots_supervisor).
 -behavior(supervisor).
 
--include("../include/simulation_world_parameters.hrl").
+-include("../include/simulation_records.hrl").
 
 -export([ start_link/1, init/1 ]).
 -export([ plant/1 ]).
@@ -16,7 +16,7 @@ init(State) ->
 
 plant(Parameters) ->
     Carrot = { {carrot, 1}, 
-               {simulation_carrot, start_link, [ Parameters ]}, 
+               {simulation_entity_carrot, start_link, [ Parameters ]}, 
                permanent, brutal_kill, worker, 
                [ simulation_carrot ]},
 
