@@ -23,9 +23,28 @@ init(WorldParameters) ->
     simulation_event_stream:notify(carrot, planted, State),
     {ok, State}.
 
-%% TODO: Carrot Protocol.
-handle_call(_Message, _From, State) ->
-    {reply, empty, State}.
+handle_call({is_it_a_carrot, Position}, _From, State) ->
+    {X, Y} = {(State#carrot.position)#position.x, (State#carrot.position)#position.y},
+
+    Result = case {Position#position.x, Position#position.y} of
+                 {X, Y} -> true;
+                 _      -> false
+             end,
+                  
+    {reply, Result, State};
+
+handle_call(eat, _From, State) ->
+    case State#carrot.quantity of
+        0 -> 
+            {stop, normal, {error, carrot_patch_eaten}, State};
+        _ -> 
+            NewQuantity = State#carrot.quantity - ?CARROT_EAT_AMOUNT,
+            NewState = State#carrot{quantity = NewQuantity},
+
+            simulation_event_stream:notify(carrot, beingEaten, NewState),
+
+            {reply, {ok, carrot_patch_partially_eaten}, NewState}
+    end.
 
 terminate(_, State) ->
     simulation_event_stream:notify(carrot, eaten, State),
