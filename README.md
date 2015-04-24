@@ -15,6 +15,23 @@ The most detailed description:
 
 ## Architecture
 
-- *TODO*: Screen from *Observer* tool.
+*TODO*
+
+## TODO
+
+### Documentation
+
+- *TODO*: Screen from *Observer* tool (*supervision tree*).
 - *TODO*: Small description of the notification mechanism and FSMs.
 - *TODO*: `GIF` from *Erlubi* visualization connected to it.
+
+### Internals
+
+- *TODO*: Add new level of supervisors - *communication_supervisor* and *simulation_supervisor*.
+- *TODO*: All carrots, rabbits and wolves will go underneath simulation supervisor, event streams and simulation_controller (`gen_server`) will go underneath communication supervisor.
+- *TODO*: Add a timeout, not a brutal kill for supervisors.
+- *TODO*: Add simulation controller with start and stop publicly visible API.
+- *TODO*: Add a public API for connecting gen_event handler to the *simulation_event_stream*.
+- *TODO*: Carrot FSM and logic.
+- *TODO*: Rabbit FSM and logic.
+- *TODO*: Wolf FSM and logic.
