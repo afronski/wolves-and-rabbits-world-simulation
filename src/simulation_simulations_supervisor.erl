@@ -39,5 +39,9 @@ populate(Parameters) ->
     done.
 
 restart() ->
-    exit(whereis(?MODULE), shutdown),
+    simulation_carrots_supervisor:kill_children(),
+
+    simulation_rabbits_supervisor:kill_children(),
+    simulation_wolves_supervisor:kill_children(),
+
     done.

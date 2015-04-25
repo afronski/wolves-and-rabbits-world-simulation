@@ -56,5 +56,8 @@ code_change(_OldVsn, State, _Extra) ->
 handle_cast(_Request, State) -> 
     {noreply, State}.
 
+handle_info(stop_entity, State) ->
+    {stop, normal, State};
+
 handle_info(_Info, State) -> 
     {noreply, State}.
