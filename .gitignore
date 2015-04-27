@@ -1,2 +1,5 @@
 # Binaries:
-ebin/*.beam
+_build/
+
+# Lock files:
+rebar.lock
