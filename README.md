@@ -16,7 +16,8 @@ A textual description:
 4. Invoke following commands in the *Erlang* shell:
   - `application:start(sasl).`
   - `application:start(wolves_and_rabbits_world_simulation).`
-  - `simualtion_controller:start_simulation().`
+  - `simulation_controller:start_simulation().`
+5. If you would like to run tests, invoke command: `rebar3 ct`.
 
 ## Architecture
 
