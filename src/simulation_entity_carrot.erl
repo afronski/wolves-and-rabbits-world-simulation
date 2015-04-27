@@ -41,7 +41,7 @@ handle_call(eat, _From, State) ->
             NewQuantity = State#carrot.quantity - ?CARROT_EAT_AMOUNT,
             NewState = State#carrot{quantity = NewQuantity},
 
-            simulation_event_stream:notify(carrot, beingEaten, NewState),
+            simulation_event_stream:notify(carrot, bite, NewState),
 
             {reply, {ok, carrot_patch_partially_eaten}, NewState}
     end.
