@@ -10,8 +10,13 @@ A textual description:
 
 ## How to build and run it?
 
-1. `make clean`
-2. `make`
+1. Grab `rebar3` binaries from [here](https://github.com/rebar/rebar3).
+2. `rebar3 compile`
+3. `erl -pa _build/default/lib/wolves_and_rabbits_world_simulation/ebin`
+4. Invoke following commands in the *Erlang* shell:
+  - `application:start(sasl).`
+  - `application:start(wolves_and_rabbits_world_simulation).`
+  - `simualtion_controller:start_simulation().`
 
 ## Architecture
 
@@ -47,7 +52,5 @@ Example event:
 
 ### Internals
 
-- *TODO*: Add `rebar` to it, in order to integrate with `mix` afterwards.
-- *TODO*: Adding tests to the implementation.
 - *TODO*: Rabbit FSM and logic.
 - *TODO*: Wolf FSM and logic.
