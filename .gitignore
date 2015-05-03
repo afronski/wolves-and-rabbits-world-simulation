@@ -1,6 +1,5 @@
-# Binaries and log files:
+# Binaries and build system related stuff:
 _build/
-logs/
 
 # Lock files:
 rebar.lock
