@@ -8,14 +8,16 @@
           all_carrots_should_be_spawned_when_board_was_populated/1,
           all_wolves_should_be_spawned_when_board_was_populated/1,
           all_rabbits_should_be_spawned_when_board_was_populated/1,
-          all_entities_should_be_killed_when_simulation_was_stopped/1 ]).
+          all_entities_should_be_killed_when_simulation_was_stopped/1,
+          start_stop_cycle_should_spawn_all_entities/1 ]).
 
 all() ->
     [ all_four_supervisors_should_be_available,
       all_carrots_should_be_spawned_when_board_was_populated,
       all_wolves_should_be_spawned_when_board_was_populated,
       all_rabbits_should_be_spawned_when_board_was_populated,
-      all_entities_should_be_killed_when_simulation_was_stopped ].
+      all_entities_should_be_killed_when_simulation_was_stopped,
+      start_stop_cycle_should_spawn_all_entities ].
 
 init_per_testcase(_TestCase, Config) ->
     WorldParameters = #world_parameters{carrots = 20, rabbits = 10, wolves = 5, width = 5, height = 5},
@@ -73,3 +75,21 @@ all_entities_should_be_killed_when_simulation_was_stopped(_Config) ->
     0 = ActualCarrotsAmount,
     0 = ActualWolvesAmount,
     0 = ActualRabbitsAmount.
+
+start_stop_cycle_should_spawn_all_entities(Config) ->
+    WorldParameters = proplists:get_value(world_parameters, Config),
+
+    ExpectedCarrotsAmount = WorldParameters#world_parameters.carrots,
+    ExpectedWolvesAmount = WorldParameters#world_parameters.wolves,
+    ExpectedRabbitsAmount = WorldParameters#world_parameters.rabbits,
+
+    simulation_simulations_supervisor:restart(),
+    simulation_simulations_supervisor:populate(WorldParameters),
+
+    [ _Specs1, {active, ActualCarrotsAmount}, _Supervisors1, _Workers1 ] = supervisor:count_children(simulation_carrots_supervisor),
+    [ _Specs2, {active, ActualWolvesAmount}, _Supervisors2, _Workers2 ] = supervisor:count_children(simulation_wolves_supervisor),
+    [ _Specs3, {active, ActualRabbitsAmount}, _Supervisors3, _Workers3 ] = supervisor:count_children(simulation_rabbits_supervisor),
+
+    ExpectedCarrotsAmount = ActualCarrotsAmount,
+    ExpectedWolvesAmount = ActualWolvesAmount,
+    ExpectedRabbitsAmount = ActualRabbitsAmount.
