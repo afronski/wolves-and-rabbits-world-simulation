@@ -9,7 +9,7 @@
 start_link(WorldParameters) ->
     gen_server:start_link({local, ?MODULE}, ?MODULE, WorldParameters, []).
 
-start_simulation() ->    
+start_simulation() ->
     gen_server:call(?MODULE, start_simulation).
 
 stop_simulation() ->
@@ -51,11 +51,11 @@ handle_call(get_board_parameters, _From, {_StateName, WorldParameters} = State) 
 terminate(_, _State) ->
     ok.
 
-code_change(_OldVsn, State, _Extra) -> 
+code_change(_OldVsn, State, _Extra) ->
     {ok, State}.
 
-handle_cast(_Request, State) -> 
+handle_cast(_Request, State) ->
     {noreply, State}.
 
-handle_info(_Info, State) -> 
+handle_info(_Info, State) ->
     {noreply, State}.

@@ -12,22 +12,22 @@ start_link(WorldParameters) ->
 init(WorldParameters) ->
     Args = [ WorldParameters ],
 
-    CarrotsSupervisor = {carrots_supervisor, 
-                         {simulation_carrots_supervisor, start_link, Args}, 
-                         permanent, brutal_kill, supervisor, 
+    CarrotsSupervisor = {carrots_supervisor,
+                         {simulation_carrots_supervisor, start_link, Args},
+                         permanent, brutal_kill, supervisor,
                          [ simulation_carrots_supervisor ]},
 
-    RabbitsSupervisor = {rabbbits_supervisor, 
-                         {simulation_rabbits_supervisor, start_link, Args}, 
-                         permanent, brutal_kill, supervisor, 
+    RabbitsSupervisor = {rabbbits_supervisor,
+                         {simulation_rabbits_supervisor, start_link, Args},
+                         permanent, brutal_kill, supervisor,
                          [ simulation_rabbits_supervisor ]},
 
-    WolvesSupervisor = {wolves_supervisor, 
-                        {simulation_wolves_supervisor, start_link, Args}, 
-                        permanent, brutal_kill, supervisor, 
+    WolvesSupervisor = {wolves_supervisor,
+                        {simulation_wolves_supervisor, start_link, Args},
+                        permanent, brutal_kill, supervisor,
                         [ simulation_wolves_supervisor ]},
 
-    {ok, {{one_for_all, 1, 60}, 
+    {ok, {{one_for_all, 1, 60},
           [ CarrotsSupervisor, RabbitsSupervisor, WolvesSupervisor ]}}.
 
 populate(Parameters) ->

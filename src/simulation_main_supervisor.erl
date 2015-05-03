@@ -27,7 +27,7 @@ init(WorldParameters) ->
                              permanent, brutal_kill, supervisor,
                              [ simulation_simulations_supervisor ]},
 
-    {ok, {{one_for_one, 1, 60}, 
+    {ok, {{one_for_one, 1, 60},
           [ EventStream, SimulationController, SimulationsSupervisor ]}}.
 
 populate(Parameters) ->

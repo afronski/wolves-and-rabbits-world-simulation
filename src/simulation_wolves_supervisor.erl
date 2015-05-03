@@ -11,7 +11,7 @@ start_link(WorldParameters) ->
 
 init(State) ->
     simulation_event_stream:component_ready(?MODULE),
-    
+
     {ok, {{one_for_one, State#world_parameters.wolves, 1}, []}}.
 
 breed(Parameters) ->

@@ -13,16 +13,16 @@ read_world_parameters_from_settings() ->
 
     Width = application:get_env(wolves_and_rabbits_world_simulation, width, 20),
     Height = application:get_env(wolves_and_rabbits_world_simulation, height, 20),
-    
-    #world_parameters{carrots = Carrots, 
-                      rabbits = Rabbits, 
-                      wolves = Wolves, 
-                      width = Width, 
+
+    #world_parameters{carrots = Carrots,
+                      rabbits = Rabbits,
+                      wolves = Wolves,
+                      width = Width,
                       height = Height}.
 
 start(_Type, _Args) ->
     Parameters = read_world_parameters_from_settings(),
     simulation_main_supervisor:start_link(Parameters).
 
-stop(_State) -> 
+stop(_State) ->
     ok.
