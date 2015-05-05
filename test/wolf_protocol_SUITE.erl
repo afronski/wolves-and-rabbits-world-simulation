@@ -15,7 +15,7 @@ init_per_testcase(_TestCase, Config) ->
     simulation_event_stream:start_link(),
     simulation_event_stream:attach_handler(common_test_event_handler),
 
-    {ok, Pid} = simulation_entity_wolf:start_link({ WorldParameters, random }),
+    {ok, Pid} = simulation_entity_wolf:start_link({WorldParameters, random}),
 
     [ {wolf_entity_pid, Pid}, {world_parameters, WorldParameters} | Config ].
 
