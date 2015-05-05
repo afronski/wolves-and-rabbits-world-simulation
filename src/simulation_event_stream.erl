@@ -1,7 +1,8 @@
 -module(simulation_event_stream).
 
 -export([ start_link/0,
-          component_ready/1, notify/3,
+          component_ready/1,
+          notify/3, notify/4,
           attach_handler/1 ]).
 
 start_link() ->
@@ -17,6 +18,9 @@ component_ready(Name) ->
 
 notify(Name, Action, State) ->
     gen_event:notify(?MODULE, {Name, Action, State}).
+
+notify(Name, Pid, Action, State) ->
+    gen_event:notify(?MODULE, {Name, Pid, Action, State}).
 
 attach_handler(Handler) ->
     gen_event:add_handler(?MODULE, Handler, []).
