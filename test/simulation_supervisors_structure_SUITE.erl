@@ -67,6 +67,7 @@ all_rabbits_should_be_spawned_when_board_was_populated(Config) ->
 
 all_entities_should_be_killed_when_simulation_was_stopped(_Config) ->
     simulation_simulations_supervisor:restart(),
+    timer:sleep(200),
 
     [ _Specs1, {active, ActualCarrotsAmount}, _Supervisors1, _Workers1 ] = supervisor:count_children(simulation_carrots_supervisor),
     [ _Specs2, {active, ActualWolvesAmount}, _Supervisors2, _Workers2 ] = supervisor:count_children(simulation_wolves_supervisor),
@@ -85,6 +86,7 @@ start_stop_cycle_should_spawn_all_entities(Config) ->
 
     simulation_simulations_supervisor:restart(),
     simulation_simulations_supervisor:populate(WorldParameters),
+    timer:sleep(200),
 
     [ _Specs1, {active, ActualCarrotsAmount}, _Supervisors1, _Workers1 ] = supervisor:count_children(simulation_carrots_supervisor),
     [ _Specs2, {active, ActualWolvesAmount}, _Supervisors2, _Workers2 ] = supervisor:count_children(simulation_wolves_supervisor),
