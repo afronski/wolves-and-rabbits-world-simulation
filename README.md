@@ -48,10 +48,3 @@ Example event:
 ```erlang
 {carrot,eaten,{carrot,<0.297.0>,{world_parameters,50,20,10,20,20},{position,11,17},4}}
 ```
-
-## TODO
-
-### Internals
-
-- *TODO*: Rabbit FSM and logic.
-- *TODO*: Wolf FSM and logic.
