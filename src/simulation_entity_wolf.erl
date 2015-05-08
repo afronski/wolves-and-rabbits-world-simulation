@@ -55,7 +55,7 @@ running({chase_rabbit, RabbitPid, NotifierPosition}, State) ->
         abs((State#wolf.position)#position.x - NotifierPosition#position.x) =< ?NOTIFY_RATIO,
         abs((State#wolf.position)#position.y - NotifierPosition#position.y) =< ?NOTIFY_RATIO  ->
             NewState = State#wolf{rabbit_being_chased = RabbitPid},
-            gen_event:notify(eventhandler, {wolf, new_target, NewState}),
+            simulation_event_stream:notify(wolf, new_target, NewState),
             {next_state, chasing, NewState, ?FAST_TIMEOUT};
 
         true ->
@@ -66,7 +66,7 @@ running(timeout, State) ->
     {NewPosition, NewDirection} = simulation_common:next_position(State#wolf.world, State#wolf.position, State#wolf.direction, false),
     NewState = State#wolf{position = NewPosition, direction = NewDirection, time_without_food = State#wolf.time_without_food + ?TIMEOUT},
 
-    gen_event:notify(eventhandler, {wolf, move, NewState}),
+    simulation_event_stream:notify(wolf, move, NewState),
 
     RabbitsInPosition = get_rabbits_at(NewPosition),
 
@@ -203,9 +203,9 @@ splitting(timeout, State) ->
 %% Internal functions.
 
 broadcast_chased_rabbit({Rabbit, NotifierPosition}) ->
-    simulation_even_stream:notify(wolf, self(), rabbit_found, Rabbit),
+    simulation_event_stream:notify(wolf, self(), rabbit_found, Rabbit),
 
-    AllWolves = supervisor:which_children(),
+    AllWolves = supervisor:which_children(simulation_wolves_supervisor),
     broadcast_chased_rabbit({Rabbit, NotifierPosition}, AllWolves).
 
 broadcast_chased_rabbit({_Rabbit, _NotifierPosition}, []) ->

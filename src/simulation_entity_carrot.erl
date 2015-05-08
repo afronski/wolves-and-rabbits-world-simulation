@@ -23,7 +23,7 @@ init(WorldParameters) ->
     simulation_event_stream:notify(carrot, planted, State),
     {ok, State}.
 
-handle_call({is_it_a_carrot, Position}, _From, State) ->
+handle_call({are_you_at, Position}, _From, State) ->
     {X, Y} = {(State#carrot.position)#position.x, (State#carrot.position)#position.y},
 
     Result = case {Position#position.x, Position#position.y} of

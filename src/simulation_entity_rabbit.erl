@@ -177,7 +177,7 @@ running(timeout, State) ->
             NewStateEating = NewState#rabbit{target = #target{x = undefined, y = undefined},
                                              carrot_being_eaten = lists:nth(1, Carrot)},
 
-            gen_event:notify(eventhandler, {rabbit, eating, NewStateEating}),
+            simulation_event_stream:notify(rabbit, eating, NewStateEating),
             {next_state, eating, NewStateEating, ?TIMEOUT};
 
         1 ->
