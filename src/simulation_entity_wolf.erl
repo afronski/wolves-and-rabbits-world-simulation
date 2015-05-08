@@ -63,7 +63,7 @@ running({chase_rabbit, RabbitPid, NotifierPosition}, State) ->
     end;
 
 running(timeout, State) ->
-    {NewPosition, NewDirection} = world_common:nextPosition(State#wolf.world, State#wolf.position, State#wolf.direction, false),
+    {NewPosition, NewDirection} = simulation_common:next_position(State#wolf.world, State#wolf.position, State#wolf.direction, false),
     NewState = State#wolf{position = NewPosition, direction = NewDirection, time_without_food = State#wolf.time_without_food + ?TIMEOUT},
 
     gen_event:notify(eventhandler, {wolf, move, NewState}),
@@ -241,7 +241,7 @@ get_rabbits_at(_Position, [], RabbitsInPosition) ->
     RabbitsInPosition;
 
 get_rabbits_at(Position, [{_Id, Rabbit, _Type, _Modules} | Rest], RabbitsInPosition) ->
-    try gen_fsm:sync_send_all_state_event(Rabbit,{are_you_at, Position}) of
+    try gen_fsm:sync_send_all_state_event(Rabbit, {are_you_at, Position}) of
         true ->
             get_rabbits_at(Position, Rest, [Rabbit | RabbitsInPosition]);
 
