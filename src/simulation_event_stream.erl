@@ -3,7 +3,8 @@
 -export([ start_link/0,
           component_ready/1,
           notify/3, notify/4,
-          attach_handler/1 ]).
+          attach_handler/1,
+          remove_handler/1 ]).
 
 start_link() ->
     {ok, Pid} = gen_event:start_link({local, ?MODULE}),
@@ -24,3 +25,6 @@ notify(Name, Pid, Action, State) ->
 
 attach_handler(Handler) ->
     gen_event:add_handler(?MODULE, Handler, []).
+
+remove_handler(Handler) ->
+    gen_event:delete_handler(?MODULE, Handler, []).
