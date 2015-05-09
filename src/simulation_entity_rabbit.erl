@@ -32,7 +32,7 @@ init({WorldParameters, Position}) ->
     {ok, running, State, ?TIMEOUT}.
 
 terminate(_, _StateName, State) ->
-    simulation_event_stream:notify(rabbit, die, State),
+    simulation_event_stream:notify(rabbit, died, State),
     ok.
 
 handle_sync_event({are_you_near, Position}, _From, StateName, State) ->

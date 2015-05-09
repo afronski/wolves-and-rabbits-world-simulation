@@ -32,7 +32,7 @@ init({WorldParameters, Position}) ->
     {ok, running, State, ?TIMEOUT}.
 
 terminate(_, _StateName, State) ->
-    simulation_event_stream:notify(wolf, die, State),
+    simulation_event_stream:notify(wolf, died, State),
     ok.
 
 handle_event(_Event, StateName, State) ->

@@ -13,7 +13,7 @@ handle_event(Msg, State) ->
         {_, born, _}    -> "[++]";
 
         {_, eaten, _}   -> "[--]";
-        {_, die, _}     -> "[--]";
+        {_, died, _}    -> "[--]";
 
         _               -> "[ii]"
     end,
