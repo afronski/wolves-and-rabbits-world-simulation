@@ -9,9 +9,13 @@ init(_Args) ->
 
 handle_event(Msg, State) ->
     Indicator = case Msg of
-        {_, birth, _}  -> "[++]";
-        {_, death, _}  -> "[--]";
-        _              -> "[ii]"
+        {_, planted, _} -> "[++]";
+        {_, born, _}    -> "[++]";
+
+        {_, eaten, _}   -> "[--]";
+        {_, die, _}     -> "[--]";
+
+        _               -> "[ii]"
     end,
     io:format("~s ~w ~n", [ Indicator, Msg ]),
 
