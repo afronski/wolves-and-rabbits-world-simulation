@@ -6,13 +6,13 @@
 -export([ start/2, stop/1 ]).
 
 read_world_parameters_from_settings() ->
-    Carrots = application:get_env(wolves_and_rabbits_world_simulation, carrots, 50),
+    Carrots = application:get_env(wolves_and_rabbits_world_simulation, carrots, 80),
 
-    Rabbits = application:get_env(wolves_and_rabbits_world_simulation, rabbits, 20),
+    Rabbits = application:get_env(wolves_and_rabbits_world_simulation, rabbits, 30),
     Wolves = application:get_env(wolves_and_rabbits_world_simulation, wolves, 10),
 
-    Width = application:get_env(wolves_and_rabbits_world_simulation, width, 20),
-    Height = application:get_env(wolves_and_rabbits_world_simulation, height, 20),
+    Width = application:get_env(wolves_and_rabbits_world_simulation, width, 70),
+    Height = application:get_env(wolves_and_rabbits_world_simulation, height, 70),
 
     #world_parameters{carrots = Carrots,
                       rabbits = Rabbits,
