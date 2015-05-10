@@ -53,3 +53,4 @@ Example event:
 
 - *TODO*: Tests - Rabbit FSM.
 - *TODO*: Tests - Wolf FSM.
+- *TODO*: Tests - Simulation controller - `get_board_state`.

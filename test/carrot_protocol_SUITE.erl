@@ -57,8 +57,8 @@ carrot_entity_can_be_asked_about_its_position(Config) ->
     GoodPosition = EntityState#carrot.position,
     BadPosition = #position{x = 0, y = 0},
 
-    true = gen_server:call(Pid, {is_it_a_carrot, GoodPosition}),
-    false = gen_server:call(Pid, {is_it_a_carrot, BadPosition}).
+    true = gen_server:call(Pid, {are_you_at, GoodPosition}),
+    false = gen_server:call(Pid, {are_you_at, BadPosition}).
 
 carrot_entity_can_be_bitten(Config) ->
     Pid = proplists:get_value(carrot_entity_pid, Config),
