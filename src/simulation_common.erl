@@ -21,18 +21,18 @@ next_position_and_target(Position, Target) ->
     {X, Y} = {Target#target.x - Position#position.x, Target#target.y - Position#position.y},
 
     PossibleDirections = if
-        X >  0, Y >  0                   -> [n, e];
         X >  0, Y >  0, abs(X) == abs(Y) -> [ne];
-        X >  0, Y <  0                   -> [s, e];
+        X >  0, Y >  0                   -> [n, e];
         X >  0, Y <  0, abs(X) == abs(Y) -> [se];
+        X >  0, Y <  0                   -> [s, e];
         X >  0, Y == 0                   -> [e];
         X <  0, Y == 0                   -> [w];
         X == 0, Y >  0                   -> [n];
         X == 0, Y <  0                   -> [s];
-        X <  0, Y >  0                   -> [n, w];
         X <  0, Y >  0, abs(X) == abs(Y) -> [nw];
-        X <  0, Y <  0                   -> [s, w];
+        X <  0, Y >  0                   -> [n, w];
         X <  0, Y <  0, abs(X) == abs(Y) -> [sw];
+        X <  0, Y <  0                   -> [s, w];
         X == 0, Y == 0                   -> [n, s, e, w, nw, ne, sw, se]
     end,
 
@@ -42,6 +42,23 @@ next_position_and_target(Position, Target) ->
     NewDirection = lists:nth(NewDirectionIndex, PossibleDirections),
     NewPosition = next_position(Position, NewDirection),
     {NewPosition, NewDirection}.
+
+next_position(World, Position, Direction, NewPositionValid) when not NewPositionValid ->
+    NewPosition = next_position(Position, Direction),
+    {WestLimit, SouthLimit, EastLimit, NorthLimit} = {0, 0, World#world_parameters.width, World#world_parameters.height},
+
+    randomize(),
+
+    case {NewPosition#position.x, NewPosition#position.y} of
+        {WestLimit, _}  -> next_position(World, Position, new_direction(World, Position, Direction), false);
+        {_, SouthLimit} -> next_position(World, Position, new_direction(World, Position, Direction), false);
+        {EastLimit, _}  -> next_position(World, Position, new_direction(World, Position, Direction), false);
+        {_, NorthLimit} -> next_position(World, Position, new_direction(World, Position, Direction), false);
+        _               -> next_position(World, NewPosition, Direction, true)
+    end;
+
+next_position(_World, Position, Direction, _NewPositionValid) ->
+    {Position, Direction}.
 
 stop_children(SupervisorName) ->
     [ Pid ! stop_entity || {_, Pid, _, _} <- supervisor:which_children(SupervisorName) ].
@@ -80,23 +97,6 @@ new_direction(World, Position, Direction) ->
 
     NewDirectionIndex = random:uniform(length(PossibleDirections)),
     lists:nth(NewDirectionIndex, PossibleDirections).
-
-next_position(World, Position, Direction, NewPositionValid) when not NewPositionValid ->
-    NewPosition = next_position(Position, Direction),
-    {WestLimit, SouthLimit, EastLimit, NorthLimit} = {0, 0, World#world_parameters.width, World#world_parameters.height},
-
-    randomize(),
-
-    case {NewPosition#position.x, NewPosition#position.y} of
-        {WestLimit, _}  -> next_position(World, Position, new_direction(World, Position, Direction), false);
-        {_, SouthLimit} -> next_position(World, Position, new_direction(World, Position, Direction), false);
-        {EastLimit, _}  -> next_position(World, Position, new_direction(World, Position, Direction), false);
-        {_, NorthLimit} -> next_position(World, Position, new_direction(World, Position, Direction), false);
-        _               -> next_position(World, NewPosition, Direction, true)
-    end;
-
-next_position(_World, Position, Direction, _NewPositionValid) ->
-    {Position, Direction}.
 
 next_position(Position, Direction) ->
     {X, Y} = {Position#position.x, Position#position.y},
