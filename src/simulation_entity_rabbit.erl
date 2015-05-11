@@ -190,7 +190,7 @@ eating({carrot_around, _CarrotPosition}, State) ->
 eating(timeout, State) ->
     try gen_server:call(State#rabbit.carrot_being_eaten, eat) of
         {ok, _} ->
-            NewState = State#rabbit{carrots_eaten = State#rabbit.carrots_eaten + ?CARROT_PATCH_AMOUNT,
+            NewState = State#rabbit{carrots_eaten = State#rabbit.carrots_eaten + ?CARROT_EAT_AMOUNT,
                                     time_without_food = 0},
 
             case NewState#rabbit.carrots_eaten of
