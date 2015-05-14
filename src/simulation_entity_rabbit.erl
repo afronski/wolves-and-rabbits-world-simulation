@@ -35,6 +35,9 @@ terminate(_, _StateName, State) ->
     simulation_event_stream:notify(rabbit, died, State),
     ok.
 
+handle_sync_event(introspection, _From, StateName, State) ->
+    {reply, {introspection, StateName, State}, StateName, State};
+
 handle_sync_event({are_you_near, Position}, _From, StateName, State) ->
     if
         abs((State#rabbit.position)#position.x - Position#position.x) =< ?NOTIFY_RATIO,
