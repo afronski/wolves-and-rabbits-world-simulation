@@ -51,5 +51,4 @@ Example event:
 
 ## TODO
 
-- *TODO*: Tests - Rabbit FSM.
 - *TODO*: Tests - Wolf FSM.
