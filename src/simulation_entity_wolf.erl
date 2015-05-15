@@ -38,6 +38,9 @@ terminate(_, _StateName, State) ->
 handle_event(_Event, StateName, State) ->
     {next_state, StateName, State}.
 
+handle_sync_event(introspection, _From, StateName, State) ->
+    {reply, {introspection, StateName, State}, StateName, State};
+
 handle_sync_event(_Event, _From, StateName, State) ->
     {next_state, StateName, State}.
 
