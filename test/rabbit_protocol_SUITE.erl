@@ -8,14 +8,16 @@
           rabbit_entity_at_first_should_run_and_has_starting_position/1,
           rabbit_entity_should_report_position_when_asked/1,
           rabbit_entity_should_answer_is_it_at_specified_position/1,
-          rabbit_entity_should_answer_is_it_near_specified_position/1 ]).
+          rabbit_entity_should_answer_is_it_near_specified_position/1,
+          rabbit_entity_should_die_when_it_receives_eaten_event/1 ]).
 
 all() ->
     [ rabbit_entity_should_have_world_state_applied,
       rabbit_entity_at_first_should_run_and_has_starting_position,
       rabbit_entity_should_report_position_when_asked,
       rabbit_entity_should_answer_is_it_at_specified_position,
-      rabbit_entity_should_answer_is_it_near_specified_position ].
+      rabbit_entity_should_answer_is_it_near_specified_position,
+      rabbit_entity_should_die_when_it_receives_eaten_event ].
 
 init_per_testcase(_TestCase, Config) ->
     WorldParameters = #world_parameters{carrots = 0, rabbits = 0, wolves = 0, width = 5, height = 5},
@@ -66,3 +68,9 @@ rabbit_entity_should_answer_is_it_near_specified_position(Config) ->
     true = gen_fsm:sync_send_all_state_event(Pid, {are_you_near, #position{x = 4, y = 4}}),
 
     false = gen_fsm:sync_send_all_state_event(Pid, {are_you_near, #position{x = 5, y = 5}}).
+
+rabbit_entity_should_die_when_it_receives_eaten_event(Config) ->
+    Pid = proplists:get_value(rabbit_entity_pid, Config),
+
+    {ok, dead} = gen_fsm:sync_send_all_state_event(Pid, eaten),
+    false = is_process_alive(Pid).
