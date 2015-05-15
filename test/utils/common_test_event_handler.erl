@@ -1,7 +1,7 @@
 -module(common_test_event_handler).
 -behavior(gen_event).
 
--export([ all_events/0, last_event_of/2 ]).
+-export([ all_events/0, last_event_of/2, last_event_of/3 ]).
 -export([ init/1, handle_event/2,
           terminate/2, handle_call/2, handle_info/2, code_change/3 ]).
 
@@ -10,6 +10,9 @@ all_events() ->
 
 last_event_of(From, Type) ->
     gen_event:call(simulation_event_stream, common_test_event_handler, {last_event_of, From, Type}).
+
+last_event_of(From, Pid, Type) ->
+    gen_event:call(simulation_event_stream, common_test_event_handler, {last_event_of, From, Pid, Type}).
 
 init(_Args) ->
     {ok, []}.
@@ -27,6 +30,13 @@ handle_call({last_event_of, From, Type}, State) ->
     Event = lists:last([ X || X <- lists:reverse(State),
                               element(1, X) =:= From,
                               element(2, X) =:= Type ]),
+    {ok, Event, State};
+
+handle_call({last_event_of, From, Pid, Type}, State) ->
+    Event = lists:last([ X || X <- lists:reverse(State),
+                              element(1, X) =:= From,
+                              element(2, X) =:= Pid,
+                              element(3, X) =:= Type ]),
     {ok, Event, State}.
 
 handle_info(_Info, State) ->
