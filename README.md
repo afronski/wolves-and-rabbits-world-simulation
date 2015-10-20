@@ -19,6 +19,12 @@ A textual description:
   - `simulation_controller:start_simulation().`
 5. If you would like to run tests, invoke command: `rebar3 ct`.
 
+Supported and tested on:
+
+- *Erlang 17.5* (branch `erl-17`)
+- *Erlang 18.0*
+- *Erlang 18.1*
+
 ## Architecture
 
 Each *carrot*, *rabbit* and *wolf* on the board is represented as a separate process inside *Erlang VM*. All of them will be spawned underneath one of the *entities supervisor*. Process of starting and stopping the simulation can be observed below:
