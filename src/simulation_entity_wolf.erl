@@ -195,7 +195,7 @@ splitting({chase_rabbit, _RabbitPid, _NotifierPosition}, State) ->
     {next_state, splitting, State, ?FAST_TIMEOUT};
 
 splitting(timeout, State) ->
-    NewWolf = { {wolf, erlang:now()},
+    NewWolf = { {wolf, erlang:timestamp()},
                 {simulation_entity_wolf, start_link, [ {State#wolf.world, State#wolf.position} ]},
                 temporary, brutal_kill, worker,
                 [ simulation_entity_wolf ]},

@@ -220,7 +220,7 @@ splitting({carrot_around, _CarrotPosition}, State) ->
     {next_state, splitting, State, ?FAST_TIMEOUT};
 
 splitting(timeout, State) ->
-    NewRabbit = { {rabbit, erlang:now()},
+    NewRabbit = { {rabbit, erlang:timestamp()},
                   {simulation_entity_rabbit, start_link, [ {State#rabbit.world, State#rabbit.position} ]},
                   temporary, brutal_kill, worker,
                   [ simulation_entity_rabbit ]},
